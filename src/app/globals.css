@@ -1,26 +1,157 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+@theme {
+  --color-gold: #ffd700;
+  --color-gold-dark: #b8860b;
+  --color-gold-light: #ffe57a;
+  --color-dark: #111111;
+  --color-dark-2: #1a1a1a;
+  --color-dark-3: #242424;
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+@layer utilities {
+  .font-orbitron {
+    font-family: var(--orbitron), "Orbitron", sans-serif;
+  }
+  .font-rajdhani {
+    font-family: var(--rajdhani), "Rajdhani", sans-serif;
+  }
+  .font-inter {
+    font-family: var(--inter), "Inter", sans-serif;
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ── Gold text shimmer ── */
+.text-gold-gradient {
+  background: linear-gradient(90deg, #b8860b, #ffd700, #ffe57a, #ffd700, #b8860b);
+  background-size: 300% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+  animation: goldShimmer 5s linear infinite;
 }
+
+/* ── Keyframes ── */
+@keyframes goldShimmer {
+  0% { background-position: 0% center; }
+  100% { background-position: 300% center; }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0px) rotate(0deg); }
+  33% { transform: translateY(-18px) rotate(1.5deg); }
+  66% { transform: translateY(-9px) rotate(-1deg); }
+}
+
+@keyframes borderGlow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.25), 0 0 40px rgba(255, 215, 0, 0.08),
+      inset 0 0 20px rgba(255, 215, 0, 0.04);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(255, 215, 0, 0.55), 0 0 80px rgba(255, 215, 0, 0.2),
+      inset 0 0 30px rgba(255, 215, 0, 0.08);
+  }
+}
+
+@keyframes particleFloat {
+  0% {
+    transform: translateY(100vh) translateX(0) scale(0);
+    opacity: 0;
+  }
+  5% { opacity: 0.8; transform: translateY(90vh) translateX(10px) scale(1); }
+  95% { opacity: 0.3; }
+  100% {
+    transform: translateY(-50px) translateX(var(--drift, 60px)) scale(0.5);
+    opacity: 0;
+  }
+}
+
+@keyframes scanLine {
+  0% { top: -2px; }
+  100% { top: 100%; }
+}
+
+@keyframes counterGlow {
+  from { text-shadow: 0 0 10px rgba(255, 215, 0, 0.4); }
+  to { text-shadow: 0 0 30px rgba(255, 215, 0, 0.9), 0 0 60px rgba(255, 215, 0, 0.4); }
+}
+
+@keyframes pulse-ring {
+  0% { transform: scale(0.8); opacity: 0.8; }
+  100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes typewriter {
+  from { width: 0; }
+  to { width: 100%; }
+}
+
+@keyframes blink {
+  50% { border-color: transparent; }
+}
+
+/* ── Utility classes ── */
+.float-animation {
+  animation: float 7s ease-in-out infinite;
+}
+
+.gold-border-glow {
+  animation: borderGlow 3s ease-in-out infinite;
+}
+
+.tactical-grid {
+  background-image: linear-gradient(rgba(255, 215, 0, 0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 215, 0, 0.04) 1px, transparent 1px);
+  background-size: 60px 60px;
+}
+
+.section-line {
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, transparent, #ffd700, transparent);
+}
+
+.card-hover {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 20px 60px rgba(255, 215, 0, 0.15);
+}
+
+/* ── Scan line on profile frame ── */
+.scan-line {
+  position: absolute;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(to right, transparent, rgba(255, 215, 0, 0.6), transparent);
+  pointer-events: none;
+  animation: scanLine 4s linear infinite;
+}
+
+/* ── Gold particle (base — drift set per-element via data-drift) ── */
+.gold-particle {
+  position: absolute;
+  border-radius: 9999px;
+  background-color: #ffd700;
+  opacity: 0;
+  bottom: -10px;
+  animation: particleFloat var(--duration, 10s) linear var(--delay, 0s) infinite;
+}
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 5px; }
+::-webkit-scrollbar-track { background: #080808; }
+::-webkit-scrollbar-thumb { background: #ffd700; border-radius: 3px; }
+::-webkit-scrollbar-thumb:hover { background: #ffe57a; }
+
+/* ── Text selection ── */
+::selection { background: rgba(255, 215, 0, 0.25); color: #ffd700; }
+
+/* ── Focus ── */
+:focus-visible { outline: 2px solid #ffd700; outline-offset: 3px; }
+
+/* ── Smooth section transitions ── */
+section { scroll-margin-top: 80px; }
