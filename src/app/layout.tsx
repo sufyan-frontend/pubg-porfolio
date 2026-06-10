@@ -79,7 +79,7 @@ export const metadata: Metadata = {
   alternates: { canonical: "https://sufyanpubg.vercel.app" },
   category: "Gaming",
   other: {
-    "google-site-verification": "add-your-verification-code-here",
+    "google-site-verification": "Z0fvaHcvyEB79_KwGKEauHA7ziTGWPEHkzSGtrHLSxA",
   },
 };
 
